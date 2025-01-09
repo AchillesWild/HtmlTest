@@ -1,0 +1,35 @@
+    .checkbox-listview .ui-checkbox label {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      line-height: 1.2em;
+    }
+
+    .checkbox-listview .checkbox-div {
+      display: flex;
+      align-items: center;
+      height: 20px;
+      margin: 0;
+    }
+
+    .checkbox-listview .checkbox-div input[type=checkbox] {
+      margin-right: 10px;
+    }
+
+    .checkbox-center {
+      justify-content: center;
+    }
+
+     h3 {
+       margin: 10px 0px 0px 5px;
+     }
+
+    #allowEditShare {
+        position: absolute;
+        top:2.4em;
+        right:0.4em;
+    }
+
+
+

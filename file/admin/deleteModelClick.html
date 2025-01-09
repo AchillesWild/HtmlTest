@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>token</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/noticeList.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="js/page.js"></script>
+	<script type="text/javascript" src="deleteModelClick.js"></script>
+</head>
+<body>
+
+	<div style="margin-left:25%;margin-top:2em">
+		<label>模块 : </label><select id="modelCode" name="modelCode">
+								<option value=""></option>
+							  </select>
+	</div>
+
+	<div style="margin-left:40%">
+		<button class="large-button" id="doIt">执行</button>
+	</div>
+
+	<div class="overlay"></div>
+
+	<div id="authDiv" class="auth">
+		<h3 style='position: absolute;left: 1em; top: 0;'>授权</h3>
+		<div style="float:right">
+			<button onclick = "closeAuth()">关闭</button>
+		</div>
+		<form id="authForm">
+			<div style='margin-left:5em;margin-top:3em;'>
+				<label>授权码 : </label><input id="authCode" type="text" size="34" maxlength="34" autocomplete="off">
+			</div>
+			<input id="id" type="text" style='display: none'>
+			<div style='margin-left:12em;margin-top:2em'>
+				<button class="large-button" id="authBtn">确定</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

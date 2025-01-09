@@ -1,0 +1,61 @@
+    #loadingGifDiv {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+     input[type=text][type=text],textarea {
+       border: 1px solid black;
+     }
+
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    .large-button {
+        width: 100px;
+        height: 30px;
+        padding: 2px;
+        font-size: 20px;
+    }
+
+    .overlay {
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+
+    .page-link {
+        cursor: pointer;
+        padding: 8px;
+        text-decoration: underline;
+        color: blue;
+    }
+
+    .active {
+        font-weight: bold;
+        color: red;
+    }
+
+     label {
+        font-weight:bold
+     }
+
+     h3 {
+        color:#006400
+     }
+
+    #sum{
+        color:#8B2323
+    }

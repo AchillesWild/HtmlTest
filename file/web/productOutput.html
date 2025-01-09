@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Note</title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="css/productOutput.css">
+    <link type="text/css" rel="stylesheet" href="css/common.css">
+    <link type="text/css" rel="stylesheet" href="css/alert.css">
+    <link type="text/css" rel="stylesheet" href="css/img.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="../common/check.js"></script>
+    <script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="productOutput.js"></script>
+    <script type="text/javascript" src="js/page.js"></script>
+    <script type="text/javascript" src="js/file.js"></script>
+    <script type="text/javascript" src="js/img.js"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+    <script type="text/javascript" src="js/notice.js"></script>
+
+</head>
+<body>
+<!--    <div id="sum" style="display:none">-->
+<!--            <label>总计量 : </label><label id="sumNumber"></label>-->
+<!--    </div>-->
+<!--    <hr>-->
+
+    <div>
+        <form id="search" style='width:100%'>
+            <div style='margin-left:1%;margin-top:0%;width:100%;display:flex;flex-direction:row'>
+                <div style="margin-right:2em">
+                    <label>计量物 : </label><select id="productUuid" name="productUuid">
+                                            <option style='display: none'></option>
+                                         </select>
+                </div>
+                <div style="margin-right:2em;display:none" id="sum">
+                    <label>总计量 : </label><label id="sumNumber"></label>
+                </div>
+                <div style="margin-right:2em">
+                    <label>备注 : </label><input id="remark" name="remark" type="text" size="14" maxlength="10">
+                </div>
+                <div style="margin-right:2em">
+                    <label>生产日期 : </label><input type="date" id="productionDateStart" name="productionDateStart" value="">--<input type="date" id="productionDateEnd" name="productionDateEnd" value="">
+                </div>
+<!--                <div>-->
+<!--                    <label>提交时间 : </label><input type="datetime-local" id="createTimeStart" name="createTimeStart" step="1" value="">-<input type="datetime-local" id="createTimeEnd" name="createTimeEnd" step="1" value="">-->
+<!--                </div>-->
+            </div>
+            <div style='width:100%;margin-top:1%;display:flex;flex-direction:row'>
+                <div>
+                    <button class="large-button" style="display:none" id="openAddBtn" onclick = "openAddOutputDialog()">新增</button>
+                </div>
+                <div style="margin-left:37%">
+                    <button class="large-button" id="searchBtn">查询</button>
+                </div>
+                <div style="margin-left:0%">
+                    <button class="large-button" id="searchReset">重置</button>
+                </div>
+                <div style="position: absolute;right: 1%">
+                    <button class="large-button" onclick = "exportExcel()">导出excel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="addDiv" class="white_content">
+        <h3 style='position: absolute;left: 1em; top: 0;'>新增</h3>
+        <div style="float:right">
+            <button onclick = "closeAddDialog()">关闭</button>
+        </div>
+        <form id="addForm">
+            <div style='margin-left:3em;margin-top:1em;display:flex;flex-direction:column'>
+                <div style="margin-left:1em;margin-top:1em;">
+                    <label>计量物 : </label><select id="addProductUuid"></select>
+                </div>
+                <div style="margin-left:2em;margin-top:1em;">
+                    <label>单位 : </label><select id="addUnit" disabled></select>
+                </div>
+                <div style="margin-left:1.3em;margin-top:1em;">
+                    <span style="color:red;"> * </span><label>计量 : </label><input id="addNumber" type="text" size="10"  maxlength="10" autocomplete="off"/>
+                </div>
+                <div style="margin-top:1em;">
+                    <label>生产日期 : </label><input type="date" id="addProductionDate"/>
+                </div>
+                <div style="margin-left:2em;margin-top:1em;">
+                    <label>备注 : </label><textarea id="addRemark" name='remark'  rows='6' cols='30' maxlength="512"></textarea>
+                </div>
+            </div>
+            <div style='margin-left:10em;margin-top:2em'>
+                <button class="large-button" id="addBtn">保存</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="loadingGifDiv" style="display:none;">
+        <img id="loadingGif" src="img/loading.gif">
+        <p id="loadingMsg"></p>
+    </div>
+
+    <div class="overlay"></div>
+
+    <div id="alertOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 2000;"></div>
+    <div id="alertModal">
+        <p id="alertMessage"></p>
+        <button id="closeAlert" onclick="closeAlert();">确定</button>
+        <button id="cancel">取消</button>
+        <button id="confirm">确认</button>
+    </div>
+    <div id="alertNotice">
+        <p id="alertNoticeMessage" style="text-align: left;text-indent: 2em;"></p>
+        <div class="checkbox-container">
+            <input type="checkbox" id="readCheckbox" style="margin-right: 0.2em;">
+            <label for="readCheckbox" >不再提示</label>
+        </div>
+        <input id="noticeId" type="text" style="display:none"/>
+        <button id="confirmNotice">已知晓</button>
+    </div>
+
+    <div id="updateDiv" class="white_content">
+        <h3 style='position: absolute;left: 1em; top: 0;'>修改</h3>
+        <div style="float:right">
+            <button onclick = "closeUpdateDialog()">关闭</button>
+        </div>
+        <form id="updateForm">
+            <input id="updateId" name="id" style="display:none" type="text" disabled>
+            <div style='margin-left:3em;margin-top:1em;display:flex;flex-direction:column'>
+                <div style="margin-left:1em;margin-top:1em;">
+                    <label>计量物 : </label><select id="updateProductUuid"></select>
+                </div>
+                <div style="margin-left:2em;margin-top:1em;">
+                    <label>单位 : </label><select id="updateUnit" disabled></select>
+                </div>
+                <div style="margin-left:1.3em;margin-top:1em;">
+                    <span style="color:red;"> * </span><label>计量 : </label><input id="updateNumber" type="text" size="10"  maxlength="10"/>
+                </div>
+                <div style="margin-top:1em;">
+                    <label>生产日期 : </label><input type="date" id="updateProductionDate"/>
+                </div>
+                <div style="margin-left:2em;margin-top:1em;">
+                    <label>备注 : </label><textarea id="updateRemark" name='remark'  rows='6' cols='30' maxlength="512"></textarea>
+                </div>
+            </div>
+            <div style='margin-left:10em;margin-top:2em'>
+                <button class="large-button" id="updateBtn">保存</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="viewDiv" class="white_content">
+        <h3 style='position: absolute;left: 1em; top: 0;'>查看</h3>
+        <div style="float:right">
+            <button onclick = "closeViewDialog()">关闭</button>
+        </div>
+        <div style='margin-left:3em;margin-top:2em;display:flex;flex-direction:column'>
+            <div style="margin-left:1em;margin-top:1em;">
+                <label>计量物 : </label><input id="viewProductUuid" type="text" size="15" disabled/>
+            </div>
+            <div style="margin-left:2em;margin-top:1em;">
+                <label>单位 : </label><input id="viewUnit" type="text" size="4"  disabled/>
+            </div>
+            <div style="margin-left:2em;margin-top:1em;">
+                <label>计量 : </label><input id="viewNumber" type="text" size="8" disabled/>
+            </div>
+            <div style="margin-top:1em;">
+                <label>生产日期 : </label><input type="text" id="viewProductionDate" size="6" disabled/>
+            </div>
+            <div style="margin-left:2em;margin-top:1em;">
+                <label>备注 : </label><textarea id="viewRemark" rows='6' cols='30' maxlength="512" disabled></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="viewProductDiv" class="product_detail">
+        <h3 style='position: absolute;left: 1em; top: 0;'>计量物信息</h3>
+        <div style="float:right">
+            <button onclick = "closeProductViewDialog()">关闭</button>
+        </div>
+        <div style='margin-left:2.6em;margin-top:3em;display:flex;flex-direction:row'>
+            <div>
+                <label>名称 : </label><input id="viewName" type="text" size="18" maxlength="32" disabled/>
+            </div>
+            <div style="margin-left:4em">
+                <label>编号 : </label><input id="viewCode" type="text" size="18" maxlength="32" disabled/>
+            </div>
+        </div>
+        <div style='margin-left:2.6em;margin-top:1em;'>
+            <label>描述 : </label><textarea id="viewDescription" rows='3' cols='55' maxlength="512" disabled></textarea>
+        </div>
+        <div style='margin-left:0.7em;margin-top:1em;display:flex;flex-direction:row'>
+            <div>
+                <label>提交时间 : </label><input id="createTimeStr" type="text" disabled/>
+            </div>
+            <div style="margin-left:4em">
+                <label>修改时间 : </label><input id="updateTimeStr" type="text" disabled/>
+            </div>
+        </div>
+        <div id="imgViewDiv" style='margin-left:5em;margin-top:1em;'>
+            <div class="right_div" id="viewShowImg" style="float: left;"></div>
+        </div>
+    </div>
+
+    <div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+        <div>
+            <table width="100%"  style="table-layout:fixed">
+                <thead>
+                <tr>
+                    <th style="width:1%">NO.</th>
+                    <th style="width:2.7%">计量物</th>
+                    <th style="width:2%">计量</th>
+<!--                    <th style="width:1%">单位</th>-->
+                    <th style="width:2.5%">日期</th>
+                    <th style="width:4%">备注</th>
+                    <th style="width:5%">操作</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div style="margin-left:35%;margin-top:1em" id="pagination"></div>
+    </div>
+</body>
+</html>

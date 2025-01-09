@@ -1,0 +1,42 @@
+input[type=text] {
+  width: 130px
+}
+
+select {
+  width: 90px
+}
+
+
+th, td {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+tr {
+    height:30px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+form {
+    display: inline-block;
+}
+
+.white_content {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 20%;
+    width: 60%;
+    height: 110%;
+    padding: 7px;
+    border: 7px solid black;
+    background-color: white;
+    z-index:1002;
+}

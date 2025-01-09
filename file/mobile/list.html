@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记录&分享</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../common/img/tab.png" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/list.css">
+    <link type="text/css" rel="stylesheet" href="css/listCommon.css">
+    <link type="text/css" rel="stylesheet" href="css/img.css">
+    <link type="text/css" rel="stylesheet" href="css/alert.css">
+    <link type="text/css" rel="stylesheet" href="css/searchSelect.css">
+    <link type="text/css" rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="../common/check.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="list.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
+    <script type="text/javascript" src="listUpdateMission.js"></script>
+    <script type="text/javascript" src="listUpdateNote.js"></script>
+    <script type="text/javascript" src="listUpdateFinance.js"></script>
+    <script type="text/javascript" src="listUpdateProductOutput.js"></script>
+    <script type="text/javascript" src="listUpdateGoodsTrade.js"></script>
+</head>
+<body>
+    <div data-role="page" data-position="fixed" id="dataListPage">
+            <div data-role="header" data-position="fixed">
+                <div class="navbar" >
+                    <a href="#"  class="nav-item" id="mission">待办</a>
+                    <a href="#"  class="nav-item" id="note">笔记</a>
+                    <a href="#"  class="nav-item" id="finance">账务</a>
+                    <a href="#"  class="nav-item" id="product">计量</a>
+                    <a href="#"  class="nav-item" id="goods">买/卖</a>
+                </div>
+            </div>
+        <form id="search">
+            <div data-role="fieldcontain" style="margin-left:1em;margin-right:1em;margin-top:0px">
+                <div id="flowTypeDiv" style="display:none">
+                    <select name="flowType" id="flowType">
+                        <option value="" selected>收/支(全部)</option>
+                        <option value="0">支出</option>
+                        <option value="1">收入</option>
+                    </select>
+                </div>
+                <div id="transactionTypeDiv" style="display:none">
+                    <select name="transactionType" id="transactionType"></select>
+                </div>
+                <div id="keyWordsDiv" style="display:none">
+                    <input type="search" name="keyWords" id="keyWords" placeholder="关键字" form="search" autocomplete="off"/>
+                </div>
+                <div id="typeDiv" style="display:none">
+                    <select name="type" id="type"></select>
+                </div>
+                <div id="paceDiv" style="display:none">
+                    <select name="pace" id="pace"></select>
+                </div>
+                <div id="productUuidDiv" style="display:none">
+                    <div class="searchSelectDiv">
+                        <input type="text" class="selectSearch" id="productUuidSearch" placeholder="查询/选择计量物" autocomplete="off"/>
+                        <div style="display:none">
+                            <input id="productUuid" type="text"/>
+                        </div>
+                        <div class="searchSelect" id="productUuidSelect"></div>
+                    </div>
+                </div>
+                <div id="goodsUuidDiv" style="display:none">
+                    <div class="searchSelectDiv">
+                        <input type="text" class="selectSearch" id="goodsUuidSearch" placeholder="查询/选择商品" autocomplete="off"/>
+                        <div style="display:none">
+                            <input id="goodsUuid" type="text"/>
+                        </div>
+                        <div class="searchSelect" id="goodsUuidSelect"></div>
+                    </div>
+                </div>
+
+
+                <div id="tradeTypeDiv" style="display:none">
+                    <select name="tradeType" id="tradeType"></select>
+                </div>
+                <div id="supplierUuidDiv" style="display:none">
+                    <div class="searchSelectDiv">
+                        <input type="text" class="selectSearch" id="supplierUuidSearch" placeholder="查询/选择供应商" autocomplete="off"/>
+                        <div style="display:none">
+                            <input id="supplierUuid" type="text"/>
+                        </div>
+                        <div class="searchSelect" id="supplierUuidSelect"></div>
+                    </div>
+                </div>
+
+                <div id="dayRangeDiv" style="display:none">
+                    <input type="date" name="dateStart" id="dateStart" data-role="none" />
+                    <input type="date" name="dateEnd" id="dateEnd" data-role="none" />
+                </div>
+                <div class="ui-grid-a" style="margin-top:0.8em;width:100%;display:none" id="sum">
+                    <div class="ui-block-a" style="width:40%;;margin-left:15%;font-weight:bold;color:green">总量</div>
+                    <div class="ui-block-b" style="width:45%;font-weight:bold;color:green" id="sumNumber"></div>
+                </div>
+            </div>
+        </form>
+        <div id="sumAmountDiv" style="display:none">
+            <div class="ui-grid-c" style="width:100%">
+                <div class="ui-block-a" style="width:32%;margin-left:5%">
+                    <p style='font-weight:bold;font-size:0.8em' id="sumIncomeAmountName">总收入(元)</p>
+                </div>
+                <div class="ui-block-b" style="width:33%">
+                    <p style='font-weight:bold;font-size:0.8em' id="sumPayAmountName">总支出(元)</p>
+                </div>
+                <div class="ui-block-c" style="width:30%">
+                    <p style='font-weight:bold;font-size:0.8em' id="sumMarginName">差额(元)</p>
+                </div>
+            </div>
+            <div class="ui-grid-c" style="width:100%">
+                <div class="ui-block-a" style="width:31%;margin-left:5%">
+                    <p id="sumIncomeAmountValue" style='color:green;font-weight:bold;font-size:0.8em'></p>
+                </div>
+                <div class="ui-block-b" style="width:33%">
+                    <p id="sumPayAmountValue" style='color:green;font-weight:bold;font-size:0.8em'></p>
+                </div>
+                <div class="ui-block-c" style="width:31%">
+                    <p id="sumMarginValue" style='color:green;font-weight:bold;font-size:0.8em'></p>
+                </div>
+            </div>
+        </div>
+        <div data-role="main" class="ui-content">
+            <div id="list">
+                <ul data-role="listview"></ul>
+                <a href="#" class="ui-btn ui-corner-all ui-icon-arrow-u ui-btn-icon-notext" id="scrollTopBtn" style="display:none"></a>
+            </div>
+            <div id="bottom-message-wrapper">
+                <div id="bottom-message" style="display:none;text-align:center">
+                    <p>没有更多数据了 ~</p>
+                </div>
+            </div>
+
+            <a href="#getOrUpdate" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-right" id="addBtn"></a>
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div class="navbar" >
+                    <a href="#" class="footer-nav-item" id="noteRecycleList">回收站</a>
+
+                    <a href="#" class="footer-nav-item" id="financeTransactionList">收支类型</a>
+                    <a href="#" class="footer-nav-item" id="financeMonthList">月度</a>
+
+                    <a href="#" class="footer-nav-item" id="productList">计量物</a>
+                    <a href="#" class="footer-nav-item" id="productOutputMonthList">月度</a>
+
+                    <a href="#" class="footer-nav-item" id="goodsList">商品</a>
+                    <a href="#" class="footer-nav-item" id="goodsSupplierList">供应商</a>
+                    <a href="#" class="footer-nav-item" id="goodsTradeMonthList">月度</a>
+
+<!--                    <a href="#" class="footer-nav-item" id="shareAreaList">信息板</a>-->
+                    <a href="#" class="footer-nav-item" id="self">我</a>
+            </div>
+        </div>
+    </div>
+
+    <div data-role="popup" id="getOrUpdate">
+        <div data-role="header">
+            <a href="#" data-rel="back" id="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+            <h1 id="headerName"></h1>
+            <div id="copyContentDiv" style="display:none;text-align: right;position: absolute;top: 0.6em;right: 4em">
+                <a href="#" id="copyContentBtn" style="width: auto;font-size:0.7em;text-decoration: none;">复制内容</a>
+            </div>
+            <a href="#" id="addOrUpdateBtn" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-notext" style="display:none"></a>
+        </div>
+
+        <a href="#" id="allowEdit" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-notext"></a>
+        <div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+        <div data-role="content" style="margin-top:0.6em">
+            <form class="updateForm">
+                <div style="display:none">
+                    <input id="updateId" name="id" type="text"/>
+                </div>
+
+                <div id="updateTitleDiv" style="display:none">
+                    <input type="text" id="updateTitle" placeholder="标题(最多64个字符.)" autocomplete="off">
+                </div>
+
+
+                <div id="updateTypeDiv" style="display:none">
+                    <select id="updateType"></select>
+                </div>
+                <div id="updatePaceDiv" style="display:none" >
+                    <select id="updatePace"></select>
+                </div>
+                <div id="updateContentDiv" style="display:none">
+                    <textarea id="updateContent" placeholder="内容(非必输)"></textarea>
+                </div>
+
+
+                <div id="updateAmountDiv" style="display:none">
+                    <input type="text" id="updateAmount" placeholder="金额(元, 最多两位小数)" autocomplete="off">
+                </div>
+
+                <div id="updateFlowTypeDiv" style="display:none">
+                    <select id="updateFlowType">
+                        <option value="0">支出</option>
+                        <option value="1">收入</option>
+                    </select>
+                </div>
+                <div id="updateTransactionTypeDiv" style="display:none">
+                    <select id="updateTransactionType"></select>
+                </div>
+                <div id="updateTradeDateDiv" style="display:none">
+                    <input type="date" data-role="date" id="updateTradeDate" data-inline="true">
+                </div>
+
+                <div id="updateProductUuidDiv" style="display:none">
+                    <div class="searchSelectDiv">
+                        <input type="text" class="selectSearch" id="updateProductUuidSearch" placeholder="查询/选择计量物" autocomplete="off"/>
+                        <div style="display:none">
+                            <input id="updateProductUuid" type="text"/>
+                        </div>
+                        <div class="searchSelect" id="updateProductUuidSelect"></div>
+                    </div>
+                </div>
+                <div id="updateUnitDiv" style="display:none">
+                    <select id="updateUnit"></select>
+                </div>
+                <div id="updateNumberDiv" style="display:none">
+                    <input type="text" id="updateNumber" placeholder="数量/质量...(最多三位小数)" autocomplete="off">
+                </div>
+                <div id="updateProductionDateDiv" style="display:none">
+                    <input type="date" data-role="date" id="updateProductionDate" data-inline="true">
+                </div>
+
+
+                <div id="updateGoodsUuidDiv" style="display:none">
+                    <div class="searchSelectDiv">
+                        <input type="text" class="selectSearch" id="updateGoodsUuidSearch" placeholder="查询/选择商品" autocomplete="off"/>
+                        <div style="display:none">
+                            <input id="updateGoodsUuid" type="text"/>
+                        </div>
+                        <div class="searchSelect" id="updateGoodsUuidSelect"></div>
+                    </div>
+                </div>
+                <div id="updateTradeTypeDiv" style="display:none">
+                    <select id="updateTradeType"></select>
+                </div>
+                <div id="updateSupplierUuidDiv" style="display:none">
+                    <div class="searchSelectDiv">
+                        <input type="text" class="selectSearch" id="updateSupplierUuidSearch" placeholder="查询/选择供应商" autocomplete="off"/>
+                        <div style="display:none">
+                            <input id="updateSupplierUuid" type="text"/>
+                        </div>
+                        <div class="searchSelect" id="updateSupplierUuidSelect"></div>
+                    </div>
+                </div>
+                <div id="updateGoodsNumberDiv" style="display:none">
+                    <input type="text" id="updateGoodsNumber" placeholder="数量/质量(最多三位小数, 非必输)" autocomplete="off">
+                </div>
+                <div id="updateGoodsUnitDiv" style="display:none">
+                    <select id="updateGoodsUnit"></select>
+                </div>
+                <div id="updateUnitPriceDiv" style="display:none">
+                    <input type="text" id="updateUnitPrice" placeholder="单价(元, 最多三位小数, 非必输)" autocomplete="off">
+                </div>
+                <div id="updateSumPriceDiv" style="display:none">
+                    <input type="text" id="updateSumPrice" placeholder="总价(元, 最多两位小数.)" autocomplete="off">
+                </div>
+                <div id="updateGoodsTradeDateDiv" style="display:none">
+                    <input type="date" data-role="date" id="updateGoodsTradeDate" data-inline="true">
+                </div>
+                <div id="updatePaidDiv" style="display:none">
+                    <select id="updatePaid">
+                        <option value="1">已结算</option>
+                        <option value="0">未结算</option>
+                    </select>
+                </div>
+
+
+                <div id="updateRemarkDiv" style="display:none">
+                    <textarea id="updateRemark" placeholder="备注(非必输, 最多1024个字符.)"></textarea>
+                </div>
+
+                <div class="upload-area" onclick="document.getElementById('postImage').click();" style="display:none;">点击选择图片</div>
+                <div style="display:none;">
+                    <input type="file" accept="image/*" id="postImage">
+                </div>
+                <div id="imagePreviewDiv" style="display:none;">
+                    <img id="imagePreview" class="post-image" alt="预览图片">
+                    <div class="getImg">查看大图</div>
+                    <div class="deleteIcon" onclick="removeImg()">❌</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="alertOverlay" onclick="closeAlert();" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+    <div id="alertModal">
+        <p id="alertMessage"></p>
+        <button id="closeAlert" onclick="closeAlert();">确定</button>
+        <button id="cancel">取消</button>
+        <button id="confirm">确认</button>
+    </div>
+    <div id="alertNotice">
+        <p id="alertNoticeMessage" style="text-align: left;text-indent: 2em;"></p>
+        <div class="checkbox-container">
+            <input type="checkbox" id="readCheckbox" style="margin-right: 0.2em;">
+            <label for="readCheckbox" >不再提示</label>
+        </div>
+        <input id="noticeId" type="text" style="display:none"/>
+        <button id="confirmNotice">已知晓</button>
+    </div>
+</body>
+</html>

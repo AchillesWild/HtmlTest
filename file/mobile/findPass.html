@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>记录&分享</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../common/img/tab.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/alert.css">
+    <link rel="stylesheet" href="css/pass.css">
+    <link type="text/css" rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="../common/check.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="findPass.js"></script>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header" data-position="fixed">
+            <a href="#" id="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+            <h1 class="ui-title">重置密码</h1>
+<!--            <a href="#" id="checkBtn" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-notext"></a>-->
+        </div>
+        <div data-role="content">
+            <div class="way">
+                <div class="ui-field-contain">
+                    <input type="text" id="userName" placeholder="请输入账号">
+                    <select id="way" disabled>
+                        <option>回答问题重置</option>
+                    </select>
+                </div>
+                <div style="text-align: center;">
+                    <a href="#" id="toAnswer" class="ui-btn ui-btn-b ui-corner-all">下一步</a>
+                </div>
+            </div>
+            <div style="display:none" class="answer">
+                <form id="checkForm">
+                   <div class="ui-field-contain" style="border: none; box-shadow: none;">
+                        <select id="question1" name="question1"></select>
+                        <input type="text" id="answer1" name="answer1">
+                    </div>
+                    <div class="ui-field-contain" style="border: none; box-shadow: none;">
+                        <select id="question2" name="question2"></select>
+                        <input type="text" id="answer2" name="answer2">
+                    </div>
+                    <div class="ui-field-contain" style="border: none; box-shadow: none;">
+                        <select id="question3" name="question3"></select>
+                        <input type="text" id="answer3" name="answer3">
+                    </div>
+                </form>
+                <div style="text-align: center;">
+                    <a href="#" id="checkBtn" class="ui-btn ui-btn-b ui-corner-all">下一步</a>
+                </div>
+            </div>
+            <div style="display:none" class="pass">
+                <form id="updatePassForm">
+                    <div style="position: relative;border: none; box-shadow: none;width:80%;;margin: 2em auto 1em;text-align: center;">
+                        <input type="password" id="newPassword" placeholder="新密码">
+                        <span class="showPassword" id="firstPasswordSpan">👁️</span>
+                    </div>
+                    <div style="position: relative;border: none; box-shadow: none;width:80%;;margin: 2em auto 2em;text-align: center;">
+                        <input type="password" id="newPassword2" placeholder="再次输入新密码">
+                        <span class="showPassword" id="secondPasswordSpan">👁️</span>
+                    </div>
+                </form>
+                <div style="text-align: center;">
+                    <a href="#" id="updatePassBtn" class="ui-btn ui-btn-b ui-corner-all">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertOverlay" onclick="closeAlert();" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+    <div id="alertModal">
+        <p id="alertMessage"></p>
+        <button id="closeAlert" onclick="closeAlert();">确定</button>
+    </div>
+</body>
+</html>

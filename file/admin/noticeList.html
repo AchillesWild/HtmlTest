@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>token</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/noticeList.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="js/page.js"></script>
+	<script type="text/javascript" src="noticeList.js"></script>
+</head>
+<body>
+
+	<div>
+		<form id="search" style='width:100%'>
+			<div style='width:100%;display: flex;justify-content: space-between,flex-wrap: wrap;'>
+				<div>
+					<label>内容 : </label><input id="content" name="content" type="text" size="14" maxlength="14">
+				</div>
+				<div style="margin-left:3%">
+					<label>是否生效中 : </label><select id="online" name="online" style="width:4em">
+													<option value=""></option>
+													<option value="1">是</option>
+												 </select>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div style='width:100%;margin-top:1%;display:flex;flex-direction:row'>
+		<div>
+			<button class="large-button" onclick = "openAddDialog()">新增</button>
+		</div>
+		<div style="margin-left:30%">
+			<button class="large-button" id="searchBtn">查询</button>
+		</div>
+		<div style="margin-left:0%">
+			<button class="large-button" id="searchReset">重置</button>
+		</div>
+	</div>
+
+	<div id="addDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>新增</h3>
+		<div style="float:right">
+			<button onclick = "closeAddDialog()">关闭</button>
+		</div>
+		<form id="addForm">
+			<div style='margin-left:5em;margin-top:3em;'>
+				<label>内容 : </label><textarea id="addContent"  rows="7" cols="65"></textarea>
+			</div>
+			<div style='margin-left:3em;margin-top:1em;display:flex;flex-direction:row'>
+				<div>
+					<label>开始时间 : </label><input type="datetime-local" id="addStartTime" step="1" value="">
+				</div>
+				<div style="margin-left:2em">
+					<label>结束时间 : </label><input type="datetime-local" id="addEndTime"  step="1" value="">
+				</div>
+			</div>
+
+			<div style='margin-left:1em;margin-top:1em;display:flex;flex-direction:row'>
+				<div>
+					<label>是否重复提示 : </label><select id="addRepeated"></select>
+				</div>
+			</div>
+
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="addBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="loadingGifDiv" style="display:none;">
+		<img id="loadingGif" src="img/loading.gif">
+		<p id="loadingMsg"></p>
+	</div>
+
+	<div class="overlay"></div>
+
+	<div id="authDiv" class="auth">
+		<h3 style='position: absolute;left: 1em; top: 0;'>授权</h3>
+		<div style="float:right">
+			<button onclick = "closeAuth()">关闭</button>
+		</div>
+		<form id="authForm">
+			<div style='margin-left:5em;margin-top:3em;'>
+				<label>授权码 : </label><input id="authCode" type="text" size="34" maxlength="34" autocomplete="off">
+			</div>
+			<input id="id" type="text" style='display: none'>
+			<div style='margin-left:12em;margin-top:2em'>
+				<button class="large-button" id="authBtn">确定</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="viewDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>查看</h3>
+		<div style="float:right">
+			<button onclick = "closeViewDialog()">关闭</button>
+		</div>
+		<div style='margin-left:3em;margin-top:3em;'>
+			<label>内容 : </label><textarea id="viewContent"  rows="7" cols="65" disabled></textarea>
+		</div>
+		<div style='margin-left:1em;margin-top:1em;'>
+			<label>信息uuid : </label><input id="viewUuid" type="text" size="40" disabled/>
+		</div>
+		<div style='margin-left:1em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>开始时间 : </label><input id="viewStartTime" type="text" size="20" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>结束时间 : </label><input id="viewEndTime" disabled/>
+			</div>
+		</div>
+
+		<div style='margin-left:1em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>是否重复 : </label><input id="viewRepeated" type="text" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>是否开启 : </label><input id="viewEnable" disabled/>
+			</div>
+		</div>
+		<div style='margin-left:1em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>提交时间 : </label><input id="createTimeStr" type="text" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>修改时间 : </label><input id="updateTimeStr" type="text" disabled/>
+			</div>
+		</div>
+	</div>
+
+	<div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+		<div>
+			<table width="100%" style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th style="width:1%">NO.</th>
+						<th style="width:18%">内容</th>
+						<th style="width:6%">开始时间</th>
+						<th style="width:6%">结束时间</th>
+						<th style="width:3.5%">是否重复提示</th>
+						<th style="width:3%">是否已开启</th>
+<!--						<th style="width:6%">创建时间</th>-->
+						<th style="width:6%">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+		</div>
+		<div style="margin-left:35%;margin-top:0.3em" id="pagination"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>注册</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="../common/img/tab.png" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/common.css">
+    <link type="text/css" rel="stylesheet" href="css/register.css">
+    <link type="text/css" rel="stylesheet" href="css/alert.css">
+    <link rel="stylesheet" href="css/pass.css">
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="../common/check.js"></script>
+    <script type="text/javascript" src="register.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>记录&分享</h1>
+      <h2 align="center">注册</h2>
+      <form >
+        <div style="border: none; box-shadow: none;width:90%;margin: 0 auto;text-align: center;">
+          <input type="text" id="userName" name="userName" placeholder="账号">
+        </div>
+        <div style="position: relative;border: none; box-shadow: none;width:90%;margin: 2em auto 1em;text-align: center;">
+          <input type="password" id="password" name="password" placeholder="密码">
+          <span class="showPassword" id="firstPasswordSpan">👁️</span>
+        </div>
+        <div style="position: relative;border: none; box-shadow: none;width:90%;margin: 2em auto 1em;text-align: center;">
+          <input type="password" id="password2" name="password" placeholder="再次输入密码">
+          <span class="showPassword" id="secondPasswordSpan">👁️</span>
+        </div>
+
+        <input type="button" style="float: center;" class="large-button" id="register" value="注册"/>
+        <div style="float: right;">
+            <span>已有账号，</span><input type="button" class="large-button" id="toLogin" value="去登录"/>
+        </div>
+      </form>
+    </div>
+    <div align="center" style="margin-top:1em;font-size:0.8em">
+      <a href="https://beian.miit.gov.cn/" target="_blank">陕ICP备2024054123号-1</a>
+      <img src="../common/img/beian.png" width="20" style="margin-left:1em"/><a style="margin-left:0.2em" href="https://beian.mps.gov.cn/#/query/webSearch?code=61030402000117" rel="noreferrer" target="_blank">陕公网安备61030402000117</a>
+    </div>
+
+
+    <div id="alertOverlay" onclick="closeAlert();" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+    <div id="alertModal">
+      <p id="alertMessage"></p>
+      <button id="closeAlert" onclick="closeAlert();">确定</button>
+    </div>
+  </body>
+</html>

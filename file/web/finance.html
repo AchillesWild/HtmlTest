@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Finance</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/finance.css">
+	<link type="text/css" rel="stylesheet" href="css/alert.css">
+	<link type="text/css" rel="stylesheet" href="css/img.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/base.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="finance.js"></script>
+	<script type="text/javascript" src="js/file.js"></script>
+	<script type="text/javascript" src="js/page.js"></script>
+	<script type="text/javascript" src="js/img.js"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+	<script type="text/javascript" src="js/sum.js"></script>
+	<script type="text/javascript" src="js/notice.js"></script>
+
+</head>
+<body>
+	<div id="sum" style='display: flex;justify-content: space-between,flex-wrap: wrap;'>
+		<div style="margin-right:3em">
+			<label>收入总额(元) : </label><label id="sumIncomeAmountValue"></label>
+		</div>
+		<div style="margin-right:3em">
+			<label>支出总额(元) : </label><label id="sumPayAmountValue"></label>
+		</div>
+		<div>
+			<label>差额(元) : </label><label id="sumMarginValue"></label>
+		</div>
+	</div>
+	<hr>
+	<form id="search">
+		<div style='margin-left:0;margin-top:0;display:flex;flex-direction:row'>
+<!--			<div>-->
+<!--				<label>金额 : </label><input id="amountStart" name="amountStart" type="text" placeholder="起始金额" size="8" maxlength="10">&#45;&#45;<input id="amountEnd" name="amountEnd" type="text" placeholder="结束金额" size="8" maxlength="10">-->
+<!--			</div>-->
+			<div>
+				<label>收/支 : </label><select id="flowType" name="flowType" style="width:4em">
+										<option style="font-weight:bold" value=""></option>
+										<option value="0">支出</option>
+										<option value="1">收入</option>
+									  </select>
+			</div>
+			<div style='margin-left:2em'>
+				<label>收/支类型 : </label><select id="transactionType" name="transactionType">
+												<option style='display: none'></option>
+										   </select>
+			</div>
+			<div style='margin-left:2em'>
+				<label>包含图片 : </label><select id="hasImg" name="hasImg" style="width:4em">
+											<option style='display: none'></option>
+											<option value="1">是</option>
+											<option value="0">否</option>
+										</select>
+			</div>
+			<div style='margin-left:3em'>
+				<label>备注 : </label><input id="remark" name="remark" type="text" size="10" maxlength="1024">
+			</div>
+			<div style='margin-left:3em'>
+				<label>交易日期 : </label><input type="date" id="tradeDateStart" name="tradeDateStart" value="">--<input type="date" id="tradeDateEnd" name="tradeDateEnd" value="">
+			</div>
+<!--			<div style='margin-left:1em'>-->
+<!--				<label>提交时间 : </label><input type="datetime-local" id="createTimeStart" name="createTimeStart" step="1" value="">&#45;&#45;<input type="datetime-local" id="createTimeEnd" name="createTimeEnd" step="1" value="">-->
+<!--			</div>-->
+		</div>
+		<div style='width:100%;margin-top:1%;display:flex;flex-direction:row'>
+			<div>
+				<button class="large-button" style="display:none" id="openAddBtn" onclick = "openAddFinanceDialog()">新增</button>
+			</div>
+			<div style="margin-left:60%">
+				<button class="large-button" id="searchBtn">查询</button>
+			</div>
+			<div style="margin-left:0%">
+				<button class="large-button" id="searchReset">重置</button>
+			</div>
+			<div style="position: absolute;right: 1%">
+				<button class="large-button" onclick = "exportExcel()">导出excel</button>
+			</div>
+		</div>
+	</form>
+
+	<div id="addDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>修改</h3>
+		<div style="float:right">
+			<button onclick = "closeAddDialog()">关闭</button>
+		</div>
+		<form id="addForm">
+			<div style='margin-left:3.3em;margin-top:2em;display:flex;flex-direction:row'>
+<!--				<div>-->
+<!--					<span style="color:red;"> * </span><label>名称 : </label><input id="addTitle" name="title" type="text" size="14" maxlength="32"/>-->
+<!--				</div>-->
+				<div>
+					<span style="color:red;"> * </span><label>金额 : </label><input id="addAmount" name="amount" type="text" size="10" maxlength="10" autocomplete="off"/>
+				</div>
+			</div>
+			<div style='margin-left:3.6em;margin-top:1em;display:flex;flex-direction:row'>
+				<div>
+					<label>收/支 : </label>
+					<select id="addFlowType" name="flowType">
+						<option value="0">支出</option>
+						<option value="1">收入</option>
+					</select>
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>收/支类型 : </label><select id="addTransactionType"></select>
+				</div>
+				<div style="margin-left:2em">
+					<label>交易日期 : </label><input type="date" id="addTradeDate" name="tradeDate"/>
+				</div>
+			</div>
+			<div style='margin-left:4em;margin-top:1em'>
+				<label>备注 : </label><textarea name='remark' id="addRemark"  cols="60" rows='3' maxlength="1024"></textarea>
+			</div>
+			<div style='margin-left:5em;margin-top:1em;display:flex;flex-direction:row'>
+				<div class="left_div" id="add-drop-area" style="margin-right:0.5em">
+					<label for="addUploadImage" style="align:center; display: block; width: 100%; height: 100%; padding: 10px;">将图片拖拽至此区域或点击上传</label>
+					<input type="file" name="image" id="addUploadImage" accept="image/*"  style="display: none"/>
+				</div>
+				<div class="right_div" id="addShowImg"></div>
+			</div>
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="addBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="loadingGifDiv" style="display:none;">
+		<img id="loadingGif" src="img/loading.gif">
+		<p id="loadingMsg"></p>
+	</div>
+
+
+	<div class="overlay"></div>
+	<div class="img_popup">
+		<div class="image-wrapper">
+			<img id="listPreviewImage" src="" style="height:350px" alt="Popup Image" />
+			<div class="close-icon" onclick="closePopup()">X</div>
+		</div>
+	</div>
+
+	<div id="alertOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 2000;"></div>
+	<div id="alertModal">
+		<p id="alertMessage"></p>
+		<button id="closeAlert" onclick="closeAlert();">确定</button>
+		<button id="cancel">取消</button>
+		<button id="confirm">确认</button>
+	</div>
+	<div id="alertNotice">
+		<p id="alertNoticeMessage" style="text-align: left;text-indent: 2em;"></p>
+		<div class="checkbox-container">
+			<input type="checkbox" id="readCheckbox" style="margin-right: 0.2em;">
+			<label for="readCheckbox" >不再提示</label>
+		</div>
+		<input id="noticeId" type="text" style="display:none"/>
+		<button id="confirmNotice">已知晓</button>
+	</div>
+
+	<div id="updateDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>修改</h3>
+		<div style="float:right">
+			<button onclick = "closeUpdateDialog()">关闭</button>
+		</div>
+		<form id="updateForm">
+			<input id="updateId" name="id" style="display:none" type="text" disabled>
+			<div style='margin-left:3.3em;margin-top:2em;display:flex;flex-direction:row'>
+<!--				<div>-->
+<!--					<span style="color:red;"> * </span><label>名称 : </label><input id="updateTitle" name="title" size="14" type="text" maxlength="32"/>-->
+<!--				</div>-->
+				<div>
+					<span style="color:red;"> * </span><label>金额 : </label><input id="updateAmount" name="amount" size="10" type="text" maxlength="10"/>
+				</div>
+			</div>
+			<div style='margin-left:3.6em;margin-top:1em;display:flex;flex-direction:row'>
+				<div>
+					<label>收/支 : </label>
+					<select id="updateFlowType" name="flowType">
+						<option value="0">支出</option>
+						<option value="1">收入</option>
+					</select>
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>收/支类型 : </label><select id="updateTransactionType"></select>
+				</div>
+				<div style="margin-left:2em">
+					<label>交易日期 : </label><input type="date" id="updateTradeDate"/>
+				</div>
+			</div>
+			<div style='margin-left:4em;margin-top:1em'>
+				<label>备注 : </label><textarea name='remark' id="updateRemark"  cols="60" rows='3' maxlength="1024"></textarea>
+			</div>
+			<div style='margin-left:5em;margin-top:1em;display:flex;flex-direction:row'>
+				<div class="left_div" id="update-drop-area" style="margin-right:0.5em">
+					<label for="updateUploadImage" style="align:center; display: block; width: 100%; height: 100%; padding: 10px;">将图片拖拽至此区域或点击上传</label>
+					<input type="file" name="image" id="updateUploadImage" accept="image/*" style="display: none"/>
+				</div>
+				<div class="right_div" id="updateShowImg"></div>
+			</div>
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="updateBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="viewDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>查看</h3>
+		<div style="float:right">
+			<button onclick = "closeViewDialog()">关闭</button>
+		</div>
+		<div style='margin-left:3.3em;margin-top:3em;display:flex;flex-direction:row'>
+<!--			<div>-->
+<!--				<label>名称 : </label><input id="viewTitle" type="text" size="14" disabled/>-->
+<!--			</div>-->
+			<div>
+				<label>金额 : </label><input id="viewAmount" type="text" size="10" disabled/>
+			</div>
+		</div>
+		<div style='margin-left:2.8em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>收/支 : </label>
+				<select id="viewFlowType" disabled>
+					<option value="0">支出</option>
+					<option value="1">收入</option>
+				</select>
+			</div>
+			<div style="margin-left:2em">
+				<label>收/支类型 : </label><select id="viewTransactionType" disabled></select>
+			</div>
+			<div style="margin-left:2em">
+				<label>交易日期 : </label><input type="date" id="viewTradeDate" disabled/>
+			</div>
+		</div>
+		<div style='margin-left:3.3em;margin-top:1em'>
+			<label>备注 : </label><textarea id="viewRemark" cols="60" rows='3' disabled></textarea>
+		</div>
+		<div style='margin-left:1.3em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>提交时间 : </label><input id="createTimeStr" type="text" disabled/>
+			</div>
+			<div style="margin-left:3em">
+				<label>修改时间 : </label><input id="updateTimeStr" type="text" disabled/>
+			</div>
+		</div>
+		<div id="imgViewDiv" style='margin-left:5em;margin-top:1em'>
+			<div class="right_div" id="viewShowImg" style="float: left;"></div>
+		</div>
+	</div>
+
+	<div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+		<div>
+			<table width="100%" style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th style="width:1%">NO.</th>
+						<th style="width:3%">金额(元)</th>
+						<th style="width:3%">交易日期</th>
+						<th style="width:2%">收/支</th>
+						<th style="width:3%">收/支类型</th>
+						<th style="width:3%">包含图片</th>
+						<th style="width:7%">备注</th>
+						<th style="width:5%">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+		</div>
+		<div style="margin-left:35%;margin-top:1em" id="pagination"></div>
+	</div>
+</body>
+</html>

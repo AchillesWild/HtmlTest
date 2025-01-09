@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记录&分享</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../common/img/tab.png" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/shareUser.css">
+    <link type="text/css" rel="stylesheet" href="css/alert.css">
+    <link type="text/css" rel="stylesheet" href="css/pass.css">
+    <link type="text/css" rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="../common/check.js"></script>
+    <script type="text/javascript" src="shareUser.js"></script>
+</head>
+<body>
+    <div data-role="page" id="add-page">
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-rel="back" id="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+            <h1 id="headerName">分享账号(新增)</h1>
+            <a href="#" id="addOrUpdateBtn" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-notext" style="display:none"></a>
+        </div>
+        <a class='ui-btn ui-corner-all ui-icon-edit ui-btn-icon-notext' id="allowEditShare"></a>
+        <div data-role="content" style="display: flex;flex-direction: column;margin-top:0.6em">
+            <div style="display:none">
+                <input id="updateId" name="id" type="text"/>
+            </div>
+
+            <input type="text" id="userName" placeholder="账号">
+
+            <div id="passwordDiv">
+                <div style="position: relative;border: none; box-shadow: none;text-align: center;">
+                    <input type="password" id="password" placeholder="密码">
+                    <span class="showPassword" id="firstPasswordSpan">👁️</span>
+                </div>
+                <div style="position: relative;border: none; box-shadow: none;text-align: center;">
+                    <input type="password" id="password2" placeholder="再次输入密码">
+                    <span class="showPassword" id="secondPasswordSpan">👁️</span>
+                </div>
+            </div>
+
+            <input type="text" id="nickName" placeholder="昵称(非必输)">
+
+            <ul data-role="listview" data-inset="true" class="checkbox-listview">
+                <h3>选择要分享的模块</h3>
+                <li>
+                    <div class="checkbox-div checkbox-center">
+                        <input type="checkbox" id="selectAll" name="checkbox-1"/>
+                            <label for="selectAll">全选</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox-div">
+                        <input type="checkbox" id="mission" name="sharePages" value="1"/>
+                        <label for="mission">待办</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox-div">
+                        <input type="checkbox" id="note" name="sharePages" value="2"/>
+                        <label for="note">笔记</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox-div">
+                        <input type="checkbox" id="finance" name="sharePages" value="3"/>
+                        <label for="finance">账务</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox-div">
+                        <input type="checkbox" id="product" name="sharePages" value="4"/>
+                        <label for="product">计量</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkbox-div">
+                        <input type="checkbox" id="sale" name="sharePages" value="5"/>
+                        <label for="sale">买/卖</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="alertOverlay" onclick="closeAlert();" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+    <div id="alertModal">
+        <p id="alertMessage"></p>
+        <button id="closeAlert" onclick="closeAlert();">确定</button>
+        <button id="cancel">取消</button>
+        <button id="confirm">确认</button>
+    </div>
+</body>
+</html>

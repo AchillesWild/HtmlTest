@@ -1,0 +1,30 @@
+     .button-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+     }
+     .button-row button, .button-row a {
+        flex-grow: 1;
+        text-align: center;
+        padding: 10px;
+        margin: 10px;
+     }
+     .button-row a#findPass {
+        /* 将忘记密码链接的文本颜色设置为蓝色，去掉下划线 */
+        color: blue;
+        text-decoration: none;
+        font-size: 20px;
+     }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .input-wrapper label {
+      margin-right: 10px;
+    }
+    .input-container {
+      display: flex;
+      align-items: flex-end;
+    }

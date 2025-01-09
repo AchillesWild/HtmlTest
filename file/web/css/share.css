@@ -1,0 +1,124 @@
+    .post {
+        border: 1px solid #eee;
+        border-radius:5px;
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .post-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .post-header img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .post-header span {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .post-text {
+        margin-bottom: 10px;
+    }
+
+    .post-text p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .post-img img {
+        max-width: 100%;
+    }
+
+    .post-comments {
+        margin-top: 20px;
+    }
+
+    comment-list {
+    margin-top: 10px;
+    }
+
+    .comment-item {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .comment-meta {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .comment-meta img {
+        width: 30px;
+        height 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .comment-meta span {
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .comment-content {
+        font-size: 14px;
+    }
+
+    .reply-btn {
+        font-size: 14px;
+        color: blue;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .delete-btn,.first-delete-btn {
+        font-size: 14px;
+        color: red;
+        cursor: pointer;
+    }
+
+    .show-more-btn {
+        display: block;
+        margin-top 10px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .show-more-text {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+    }
+
+    .show-more-text li {
+        padding: 5px 0;
+        border-bottom: 1px #;
+    }
+
+    form {
+        display: inline-block;
+    }
+
+    .white_content {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left:16em;
+        width: 42em;
+        height: 30em;
+        padding: 5px;
+        border: 7px solid #4CAF50;
+        background-color: white;
+        z-index:1002;
+    }

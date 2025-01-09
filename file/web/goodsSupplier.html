@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Finance</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/goodsSupplier.css">
+	<link type="text/css" rel="stylesheet" href="css/alert.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/base.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="goodsSupplier.js"></script>
+	<script type="text/javascript" src="js/file.js"></script>
+	<script type="text/javascript" src="js/page.js"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+
+</head>
+<body>
+	<div>
+		<form id="search" style='width:100%'>
+			<div style='width:100%;display: flex;justify-content: space-between,flex-wrap: wrap;'>
+				<div style="margin-right:1em">
+					<label>姓名 : </label><input id="name" name="name" type="text" size="8" maxlength="12">
+				</div>
+				<div style="margin-right:1em">
+					<label>供应商性质 : </label><select id="supplierType" name="supplierType" style="width:5em">
+													<option style='display: none'></option>
+											  </select>
+				</div>
+				<div style="margin-right:1em">
+					<label>顺序 : </label><select id="bySort" name="bySort">
+											<option style='display: none'></option>
+											<option value="1">升序</option>
+											<option value="0">降序</option>
+										 </select>
+				</div>
+				<div style="margin-right:1em">
+					<label>商品 : </label><input id="service" name="service" type="text" size="12" maxlength="14">
+				</div>
+				<div style="margin-right:1em">
+					<label>备注 : </label><input id="remark" name="remark" type="text" size="10" maxlength="14">
+				</div>
+<!--				<div>-->
+<!--					<label>提交时间 : </label><input type="datetime-local" id="createTimeStart" name="createTimeStart" step="1" value="">&#45;&#45;<input type="datetime-local" id="createTimeEnd" name="createTimeEnd" step="1" value="">-->
+<!--				</div>-->
+			</div>
+			<div style='width:100%;margin-top:1%;display:flex;flex-direction:row'>
+				<div>
+					<button class="large-button" style="display:none" id="openAddBtn" onclick = "openAddDialog()">新增</button>
+				</div>
+				<div style="margin-left:37%">
+					<button class="large-button" id="searchBtn">查询</button>
+				</div>
+				<div style="margin-left:0%">
+					<button class="large-button" id="searchReset">重置</button>
+				</div>
+				<div style="position: absolute;right: 1%">
+					<button class="large-button" onclick = "exportExcel()">导出excel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="loadingGifDiv" style="display:none;">
+		<img id="loadingGif" src="img/loading.gif">
+		<p id="loadingMsg"></p>
+	</div>
+
+	<div class="overlay"></div>
+
+	<div id="alertOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 2000;"></div>
+	<div id="alertModal">
+		<p id="alertMessage"></p>
+		<button id="closeAlert" onclick="closeAlert();">确定</button>
+		<button id="cancel">取消</button>
+		<button id="confirm">确认</button>
+	</div>
+
+	<div id="addDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>新增</h3>
+		<div style="float:right">
+			<button onclick = "closeAddDialog()">关闭</button>
+		</div>
+		<form id="addForm">
+			<div style='margin-left:4em;margin-top:3em;display:flex;flex-direction:row'>
+				<div>
+					<span style="color:red;"> * </span><label>姓名 : </label><input id="addName" name="name" type="text" size="14" maxlength="64" autocomplete="off"/>
+				</div>
+				<div style="margin-left:2em">
+					<label>顺序 : </label><input id="addSort" name="sort" type="text" size="5" maxlength="5"/>
+				</div>
+				<div style="margin-left:2em">
+					<label>供应商性质 : </label><select id="addSupplierType" name="supplierType"></select>
+				</div>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>商品 : </label><textarea id="addService" name="service" rows='8' cols='60' maxlength="512"></textarea>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>电话 : </label><input id="addMobile" name="mobile" type="text" size="35" maxlength="64"/>
+			</div>
+			<div style='margin-left:1em;margin-top:1em'>
+				<label>其他联系方式 : </label><input id="addOtherContact" name="otherContact" type="text" size="50" maxlength="128"/>
+			</div>
+			<div style='margin-left:3.9em;margin-top:1em'>
+				<label>e-mail : </label><input id="addEmail" name="email" type="text"  size="50" maxlength="128"/>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>地址 : </label><input id="addAddress" name="address" type="text" size="60" maxlength="128"/>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>备注 : </label><input id="addRemark" name='remark' type="text" size="63" maxlength="64"/>
+			</div>
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="addBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="updateDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>修改</h3>
+		<div style="float:right">
+			<button onclick = "closeUpdateDialog()">关闭</button>
+		</div>
+		<form id="updateForm">
+			<input id="updateId" name="id" type="text" style='display: none'>
+			<div style='margin-left:4em;margin-top:3em;display:flex;flex-direction:row'>
+				<div>
+					<span style="color:red;"> * </span><label>姓名 : </label><input id="updateName" name="name" type="text" size="14" maxlength="64"/>
+				</div>
+				<div style="margin-left:2em">
+					<label>顺序 : </label><input id="updateSort" name="sort" type="text" size="5" maxlength="5"/>
+				</div>
+				<div style="margin-left:2em">
+					<label>供应商性质 : </label><select id="updateSupplierType" name="supplierType"></select>
+				</div>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>商品 : </label><textarea id="updateService" name="service" rows='8' cols='60' maxlength="512"></textarea>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>电话 : </label><input id="updateMobile" name="mobile" type="text" size="35" maxlength="64"/>
+			</div>
+			<div style='margin-left:1em;margin-top:1em'>
+				<label>其他联系方式 : </label><input id="updateOtherContact" name="otherContact" type="text" size="66" maxlength="128"/>
+			</div>
+			<div style='margin-left:3.9em;margin-top:1em'>
+				<label>e-mail : </label><input id="updateEmail" name="email" type="text"  size="50" maxlength="128"/>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>地址 : </label><input id="updateAddress" name="address" type="text" size="60" maxlength="128"/>
+			</div>
+			<div style='margin-left:5em;margin-top:1em'>
+				<label>备注 : </label><input id="updateRemark" name='remark' type="text" size="63" maxlength="64"/>
+			</div>
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="updateBtn">保存</button>
+			</div>
+			<div style='margin-left:0;margin-top:0.5em'>
+				<label style="color:red;font-size:0.5em">* 修改供应商信息将会同步修改业务数据供应商信息.</label>
+			</div>
+		</form>
+	</div>
+
+	<div id="viewDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>查看</h3>
+		<div style="float:right">
+			<button onclick = "closeViewDialog()">关闭</button>
+		</div>
+		<div style='margin-left:4.7em;margin-top:3em;display:flex;flex-direction:row'>
+			<div>
+				<label>姓名 : </label><input id="viewName" type="text" size="14" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>顺序 : </label><input id="viewSort" name="sort" type="text" size="5" maxlength="5" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>供应商性质 : </label><select id="viewSupplierType" disabled></select>
+			</div>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>商品 : </label><textarea id="viewService" rows='8' cols='60' disabled></textarea>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>电话 : </label><input id="viewMobile" type="text" size="20" disabled/>
+		</div>
+		<div style='margin-left:1em;margin-top:1em'>
+			<label>其他联系方式 : </label><input id="viewOtherContact" type="text" size="50" disabled/>
+		</div>
+		<div style='margin-left:3.9em;margin-top:1em'>
+			<label>e-mail : </label><input id="viewEmail" type="text" size="25" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>地址 : </label><input id="viewAddress" type="text" size="60" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>备注 : </label><input id="viewRemark" type="text" size="63" disabled/>
+		</div>
+		<div style='margin-left:3em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>提交时间 : </label><input id="createTimeStr" type="text" disabled/>
+			</div>
+			<div style="margin-left:3em">
+				<label>修改时间 : </label><input id="updateTimeStr" type="text" disabled/>
+			</div>
+		</div>
+	</div>
+
+	<div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+		<div>
+			<table width="100%"  style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th style="width:1%">NO.</th>
+						<th style="width:4%">姓名</th>
+						<th style="width:3%">性质</th>
+						<th style="width:2%">顺序</th>
+						<th style="width:11%">商品</th>
+						<th style="width:4%">地址</th>
+						<th style="width:2%">备注</th>
+<!--						<th style="width:7%">提交时间</th>-->
+						<th style="width:6%">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+		</div>
+		<div style="margin-left:35%;margin-top:1em" id="pagination"></div>
+	</div>
+</body>
+</html>

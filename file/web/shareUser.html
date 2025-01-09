@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>分享账号</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/shareUser.css">
+	<link rel="stylesheet" href="css/alert.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/base.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="shareUser.js"></script>
+</head>
+<body>
+	<div>
+		<div style='margin-left:0%;margin-top:0.1%'>
+			<label style="color:red;font-size:0.5em">* 其他人可以通过登录您创建的分享账号查看您的数据 ( 每个账号可以创建5个分享账号, 分享账号只有查看权限 ) .</label>
+		</div>
+		<div style='margin-left:0%;margin-top:1%'>
+			<button class="large-button" onclick = "openAddDialog()">新增</button>
+		</div>
+	</div>
+
+	<div class="overlay"></div>
+
+	<div id="alertOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 2000;"></div>
+	<div id="alertOverlay0" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+	<div id="alertModal">
+		<p id="alertMessage"></p>
+		<button id="closeAlert" onclick="closeAlert();">确定</button>
+		<button id="cancel">取消</button>
+		<button id="confirm">确认</button>
+	</div>
+
+	<div id="alertPass">
+		<div class="password-input-container">
+			<input id="id" type="text" style='display: none'>
+			<input type="password" id="password" class="password-input" autocomplete="off" placeholder="请输入新密码">
+			<span class="showPassword">👁️</span>
+		</div>
+		<button id="cancelPass">取消</button>
+		<button id="confirmPass">确认</button>
+	</div>
+
+	<div id="addDiv" class="white_content">
+		<h3 style='position: absolute;left: 1%; top: 0;'>新增</h3>
+		<div style="float:right">
+			<button onclick = "closeAddDialog()">关闭</button>
+		</div>
+		<form id="addForm">
+			<div style='margin-left:5em;margin-top:2em;display:flex;flex-direction:column'>
+				<div>
+					<span style="color:red;"> * </span><label>账号 : </label><input id="addUserName" type="text" size="18" maxlength="32"/>
+				</div>
+
+				<div style='margin-top:1em;'>
+					<span style="color:red;"> * </span><label>密码 : </label><input type="password" id="addPassword" size="15" maxlength="32"/>
+				</div>
+			</div>
+			<div style='margin-left:1em;margin-top:1em;'>
+				<span style="color:red;"> * </span><label>再次输入密码 : </label><input type="password" id="addPassword2" type="text" size="15" maxlength="32"/>
+			</div>
+			<div style='margin-left:5.8em;margin-top:1em;'>
+				<label>昵称 : </label><input id="addNickName" name="nickName" type="text" size="20" maxlength="32"/>
+			</div>
+			<div style='margin-left:2.4em;margin-top:1em;display:flex;flex-direction:row'>
+				<span style="color:red;"> * </span><label>分享的模块 : </label>
+					<div style='margin-left:0;margin-top:0;display:flex;flex-direction:column'>
+						<div style='margin-left:1em;margin-top:1em;display:flex;flex-direction:row'>
+							<div style="margin-left:6em;">
+								<label style="display: block;cursor: pointer">
+									<input type="checkbox" id="addSelectAll"/>
+									<span for="addSelectAll">全选</span>
+								</label>
+							</div>
+						</div>
+						<div style="margin-left:0.1em;margin-top:1em;">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="addMission" name="addSharePages" value="1" />
+								<span for="addMission">待办</span>
+							</label>
+						</div>
+						<div style="margin-left:0.1em;margin-top:1em">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="addNote" name="addSharePages" value="2" />
+								<span for="addNote">笔记</span>
+							</label>
+						</div>
+						<div style="margin-left:0.1em;margin-top:1em;">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="addFinance" name="addSharePages" value="3" />
+								<span for="addFinance">收/支类型 , 账务-明细 , 账务-月度</span>
+							</label>
+						</div>
+						<div style="margin-left:0.1em;margin-top:1em">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="addProduct" name="addSharePages" value="4" />
+								<span for="addProduct">计量物 , 计量-明细 , 计量-月度</span>
+							</label>
+						</div>
+						<div style="margin-left:0.1em;margin-top:1em;">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="addSale" name="addSharePages" value="5" />
+								<span for="addSale">供应商 , 商品 , 价目 , 进货/销售-明细 , 进货/销售-月度</span>
+							</label>
+						</div>
+					</div>
+			</div>
+			<div style='margin-left:15em;margin-top:2em'>
+				<button class="large-button" id="addBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="updateDiv" class="white_content">
+		<h3 style='position: absolute;left: 1%; top: 0%;'>修改</h3>
+		<div style="float:right">
+			<button onclick = "closeUpdateDialog()">关闭</button>
+		</div>
+		<form id="updateForm">
+			<input id="updateId" name="id" style="display:none" type="text" disabled>
+			<div style='margin-left:20%;margin-top:12%;width:100%;'>
+				<span style="color:red;"> * </span><label>账号 : </label><input id="updateUserName" type="text" size="18" maxlength="32"/>
+			</div>
+			<div style='margin-left:22.5%;margin-top:3%;width:100%;'>
+				<label>昵称 : </label><input id="updateNickName" name="nickName" type="text" size="20" maxlength="32"/>
+			</div>
+			<div style='margin-left:9%;margin-top:4%;width:100%;display:flex;flex-direction:row'>
+				<span style="color:red;"> * </span><label style="margin-left:2%;width:22%">分享的模块 : </label>
+				<div style='margin-left:0%;margin-top:0%;display:flex;flex-direction:column'>
+					<div style='margin-left:0%;margin-top:4%;display:flex;flex-direction:row'>
+						<div style="margin-left:6em;">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="updateSelectAll" name="updateSelectAll"/>
+								<span for="updateSelectAll">全选</span>
+							</label>
+						</div>
+					</div>
+					<div style="margin-left:0.1em;margin-top:1em;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="updateMission" name="updateSharePages" value="1" />
+							<span for="updateMission">待办</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:1em">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="updateNote" name="updateSharePages" value="2" />
+							<span for="updateNote">笔记</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:4%;width:100%;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="updateFinance" name="updateSharePages" value="3" />
+							<span for="updateFinance">收/支类型 , 账务-明细 , 账务-月度</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:4%;width:110%;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="updateProduct" name="updateSharePages" value="4" />
+							<span for="updateProduct">计量物 , 计量-明细 , 计量-月度</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:4%;width:100%;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="updateSale" name="updateSharePages" value="5" />
+							<span for="updateSale">供应商 , 商品 , 价目 , 进货/销售-明细 , 进货/销售-月度</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div style='margin-left:60%;margin-top:7%'>
+				<button class="large-button" id="updateBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="viewDiv" class="white_content">
+		<h3 style='position: absolute;left: 1%; top: 0%;'>查看</h3>
+		<div style="float:right">
+			<button onclick = "closeViewDialog()">关闭</button>
+		</div>
+		<form id="viewForm">
+			<div style='margin-left:20%;margin-top:12%;width:100%;'>
+				<label>账号 : </label><input id="viewUserName" type="text" size="18" maxlength="32" disabled/>
+			</div>
+			<div style='margin-left:20%;margin-top:3%;width:100%;'>
+				<label>昵称 : </label><input id="viewNickName" name="nickName" type="text" size="20" maxlength="32" disabled/>
+			</div>
+			<div style='margin-left:8%;margin-top:4%;width:100%;display:flex;flex-direction:row'>
+				<label style="margin-left:2%;width:22%">分享的模块 : </label>
+				<div style='margin-left:0%;margin-top:0%;display:flex;flex-direction:column'>
+					<div style='margin-left:0%;margin-top:4%;display:flex;flex-direction:row'>
+						<div style="margin-left:6em;">
+							<label style="display: block;cursor: pointer">
+								<input type="checkbox" id="viewSelectAll" name="viewSelectAll" disabled/>
+								<span for="viewSelectAll">全选</span>
+							</label>
+						</div>
+					</div>
+					<div style="margin-left:0.1em;margin-top:1em;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="viewMission" name="viewSharePages" value="1" disabled/>
+							<span for="viewMission">待办</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:1em">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="viewNote" name="viewSharePages" value="2" disabled/>
+							<span for="viewNote">笔记</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:4%;width:100%;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="viewFinance" name="viewSharePages" value="3" disabled/>
+							<span for="viewFinance">收/支类型 , 账务-明细 , 账务-月度</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:4%;width:110%;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="viewProduct" name="viewSharePages" value="4" disabled/>
+							<span for="viewProduct">计量物 , 计量-明细 , 计量-月度</span>
+						</label>
+					</div>
+					<div style="margin-left:0.1em;margin-top:4%;width:100%;">
+						<label style="display: block;cursor: pointer">
+							<input type="checkbox" id="viewSale" name="viewSharePages" value="5" disabled/>
+							<span for="viewSale">供应商 , 商品 , 价目 , 进货/销售-明细 , 进货/销售-月度</span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+		<div>
+			<table width="100%" style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th style="width:1%">NO.</th>
+						<th style="width:3%">账号</th>
+						<th style="width:2%">昵称</th>
+						<th style="width:6%">分享的模块</th>
+						<th style="width:1%">状态</th>
+<!--						<th style="width:4%">提交时间</th>-->
+						<th style="width:3.5%">修改时间</th>
+						<th style="width:8%">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+		</div>
+		<div style="margin-left:35%;margin-top:1em" id="pagination"></div>
+	</div>
+</body>
+</html>

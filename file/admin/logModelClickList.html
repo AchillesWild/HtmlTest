@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>token</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/logModelClickList.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="js/page.js"></script>
+	<script type="text/javascript" src="logModelClickList.js"></script>
+</head>
+<body>
+
+	<div>
+		<form id="search" style='width:100%'>
+			<div style='width:100%;display: flex;justify-content: space-between,flex-wrap: wrap;'>
+				<div>
+					<label>模块 : </label><select id="modelCode" name="modelCode">
+									     	<option value=""></option>
+										  </select>
+				</div>
+				<div style="margin-left:1em">
+					<label>功能 : </label><input id="functionCode" name="functionCode" type="text" size="20" maxlength="64">
+				</div>
+				<div style="margin-left:1em">
+					<label>traceId : </label><input id="traceId" name="traceId" type="text" size="56" maxlength="100">
+				</div>
+				<div style="margin-left:1em">
+					<label>账号 : </label><input id="userName" name="userName" type="text" size="20" maxlength="64">
+				</div>
+			</div>
+			<div style="margin-top:1em">
+				<label>创建时间 : </label><input type="datetime-local" id="createTimeStart" name="createTimeStart" step="1" value="">-<input type="datetime-local" id="createTimeEnd" name="createTimeEnd" step="1" value="">
+			</div>
+		</form>
+	</div>
+	<div style='width:100%;margin-top:1%;display:flex;flex-direction:row'>
+		<div style="margin-left:40%">
+			<button class="large-button" id="searchBtn">查询</button>
+		</div>
+		<div style="margin-left:0%">
+			<button class="large-button" id="searchReset">重置</button>
+		</div>
+	</div>
+
+	<div id="loadingGifDiv" style="display:none;">
+		<img id="loadingGif" src="img/loading.gif">
+		<p id="loadingMsg"></p>
+	</div>
+
+	<div class="overlay"></div>
+
+	<div id="viewDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>查看</h3>
+		<div style="float:right">
+			<button onclick = "closeViewDialog()">关闭</button>
+		</div>
+		<div style='margin-left:6em;margin-top:3em;'>
+			<label>id : </label><input id="viewId" size="10" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em;'>
+			<label>账号 : </label><input id="viewUserName" size="30" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em;'>
+			<label>模块 : </label><input id="viewModelName" size="20" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em;'>
+			<label>功能 : </label><input id="viewFunctionCode" size="35" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em;'>
+			<label>耗时 : </label><input id="viewTime" size="6" disabled/>
+		</div>
+		<div style='margin-left:3.6em;margin-top:1em;'>
+			<label>traceId : </label><input id="viewTraceId" size="53" disabled/>
+		</div>
+		<div style='margin-left:6em;margin-top:1em;'>
+				<label>IP : </label><input id="viewRemoteHost" disabled/>
+		</div>
+		<div style='margin-left:3em;margin-top:1em;'>
+			<label>用户信息 : </label><textarea id="viewUserAgent"  rows="7" cols="55" disabled></textarea>
+		</div>
+		<div style='margin-left:3em;margin-top:1em;'>
+			<label>创建时间 : </label><input id="createTimeStr" disabled/>
+		</div>
+	</div>
+
+	<div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+		<div>
+			<table width="100%" style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th style="width:1%">NO.</th>
+						<th style="width:3%">模块</th>
+						<th style="width:6%">功能</th>
+						<th style="width:1%">耗时</th>
+						<th style="width:4%">账号</th>
+						<th style="width:17%">traceId</th>
+						<th style="width:4%">host</th>
+						<th style="width:6%">创建时间</th>
+						<th style="width:3%">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+		</div>
+		<div style="margin-left:35%;margin-top:0.3em" id="pagination"></div>
+	</div>
+</body>
+</html>

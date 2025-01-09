@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="../common/date.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="settingIndex.js"></script>
+    <meta charset="UTF-8">
+    <title>设置</title>
+</head>
+<body>
+    <div  style='margin-left:0%;margin-top:1%;width:100%;display:flex;flex-direction:row'>
+        <div id="check" style='margin-left:10%;margin-top:0%;width:70%;display:flex;flex-direction:row;'>
+            <div style="margin-right:1em;font-size:1em">
+                <a href="self.html" value="0" target="iframe_b" style="color:#006400;font-weight:bold">个人信息</a>
+            </div>
+            <div style="margin-right:1em;font-size:1em">
+                <a href="avatar.html" value="1" target="iframe_b">头像</a>
+            </div>
+<!--            <div style="margin-right:1em;font-size:1em">-->
+<!--                <a href="setQuestion.html" value="2" target="iframe_b">设置问题(用于找回密码)</a>-->
+<!--            </div>-->
+            <div style="margin-right:1em;font-size:1em">
+                <a href="updatePass.html" value="3" target="iframe_b">修改密码</a>
+            </div>
+            <div style="margin-right:1em;font-size:1em">
+                 <a href="shareUser.html" value="4" target="iframe_b">分享账号</a>
+            </div>
+<!--            <div style="margin-right:1em;font-size:1em">-->
+<!--                 <a href="cancelUser.html" value="20" target="iframe_b">注销</a>-->
+<!--            </div>-->
+            <div style="margin-right:1em;font-size:1em">
+                <a href="contactUs.html" value="21" target="iframe_b">联系我们</a>
+            </div>
+            <div style="margin-right:3em">
+                <span style="color:red;font-weight:bold">更过功能, 请登录移动端页面 ~</span>
+            </div>
+        </div>
+
+        <div id="self" style='margin-left:0%;margin-top:0%;width:30%;display:flex;flex-direction:row'>
+            <div style="margin-right:6em;">
+                <div id="lastLoginDate" style="font-size:0.7em;"></div>
+            </div>
+        </div>
+    </div>
+
+    <iframe name="iframe_b" src="self.html" frameborder="0"/>
+</body>
+</html>

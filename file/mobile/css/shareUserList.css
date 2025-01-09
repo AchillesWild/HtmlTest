@@ -1,0 +1,25 @@
+    .password-input-container {
+            position: relative;
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中对齐 */
+            margin-bottom: 1em;
+            margin-top: 1em;
+        }
+
+    .password-input {
+           padding-right: 30px; /* 为了给图标留出空间 */
+            font-size: 16px; /* 调整字体大小 */
+            width: 80%; /* 调整输入框宽度为 80% */
+            height: 40px; /* 增加输入框高度 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+            border: 1px solid #ccc; /* 添加边框 */
+            border-radius: 4px; /* 为输入框添加圆角 */
+            outline: none; /* 去掉输入框焦点时的边框 */
+    }
+
+    .showPassword {
+            font-size: 1em; /* 调整图标大小 */
+            margin-left: -28px; /* 调整位置 */
+            cursor: pointer;
+    }

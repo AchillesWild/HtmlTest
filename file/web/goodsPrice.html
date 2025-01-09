@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>价目</title>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/goodsPrice.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="css/img.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="../common/host.js"></script>
+	<script type="text/javascript" src="../common/base.js"></script>
+	<script type="text/javascript" src="../common/jquery-3.7.1.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="goodsPrice.js"></script>
+	<script type="text/javascript" src="js/date.js"></script>
+	<script type="text/javascript" src="js/page.js"></script>
+	<script type="text/javascript" src="js/file.js"></script>
+	<script type="text/javascript" src="../common/check.js"></script>
+	<script type="text/javascript" src="js/img.js"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+
+</head>
+<body>
+	<div>
+		<form id="search" style='width:100%'>
+			<div style='width:100%;display: flex;justify-content: space-between,flex-wrap: wrap;'>
+<!--				<div style="margin-right:2em">-->
+<!--					<label>商品 : </label><input id="name" name="name" type="text" size="14" maxlength="10">-->
+<!--				</div>-->
+				<div style="margin-right:2em">
+					<label>商品 : </label><select id="goodsUuid" name="goodsUuid">
+												<option style='display: none'></option>
+										 </select>
+				</div>
+				<div style="margin-right:2em">
+					<label>供应商 : </label><select id="supplierUuid" name="supplierUuid">
+								              <option style='display: none'></option>
+				                          </select>
+				</div>
+				<div style="margin-right:2em">
+					<label>包含图片 : </label><select id="hasImg" name="hasImg">
+												<option style='display: none'></option>
+												<option value="1">是</option>
+												<option value="0">否</option>
+				                             </select>
+				</div>
+				<div style="margin-right:2em">
+					<label>备注 : </label><input id="remark" name="remark" type="text" size="14" maxlength="10">
+				</div>
+<!--			</div>-->
+<!--			<div style='display: flex;justify-content: space-between,flex-wrap: wrap;'>-->
+<!--				<div>-->
+<!--					<label>提交时间 : </label><input type="datetime-local" id="createTimeStart" name="createTimeStart" step="1" value="">-<input type="datetime-local" id="createTimeEnd" name="createTimeEnd" step="1" value="">-->
+<!--				</div>-->
+			</div>
+			<div style='width:100%;margin-top:1%;display:flex;flex-direction:row'>
+				<div>
+					<button class="large-button" style="display:none" id="openAddBtn" onclick = "openAddDialog()">新增</button>
+				</div>
+				<div style="margin-left:37%">
+					<button class="large-button" id="searchBtn">查询</button>
+				</div>
+				<div style="margin-left:0%">
+					<button class="large-button" id="searchReset">重置</button>
+				</div>
+<!--				<div style="position: absolute;right: 1%">-->
+<!--					<button class="large-button" onclick = "exportExcel()">导出excel</button>-->
+<!--				</div>-->
+			</div>
+		</form>
+	</div>
+
+	<div id="addDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>新增</h3>
+		<div style="float:right">
+			<button onclick = "closeAddDialog()">关闭</button>
+		</div>
+		<form id="addForm">
+			<div style='margin-left:3.4em;margin-top:3em;display:flex;flex-direction:row'>
+				<div>
+					<span style="color:red;"> * </span><label>商品 : </label><select id="addGoodsUuid"></select>
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>供应商 : </label><select id="addSupplierUuid"></select>
+				</div>
+			</div>
+			<div style='margin-left:4em;margin-top:1em;display:flex;flex-direction:row'>
+				<div>
+					<label>数量 : </label><input id="addNumber" type="text" value="1" size="1"  maxlength="10" readonly/>
+				</div>
+				<div style="margin-left:2em">
+					<label>单位 : </label><select id="addUnit"></select>
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>进价 : </label><input id="addPurchasePrice" type="text" size="5" maxlength="10"/> 元
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>售价 : </label><input id="addSellingPrice" type="text" size="5" maxlength="10"/> 元
+				</div>
+			</div>
+			<div style='margin-left:4em;margin-top:1em;'>
+				<label>备注 : </label><textarea id="addRemark" name='remark'  rows='3' cols='70' maxlength="128"></textarea>
+			</div>
+
+			<div style='margin-left:5em;margin-top:1em;display:flex;flex-direction:row'>
+				<div class="left_div" id="add-drop-area" style="margin-right:0.5em">
+					<label for="addUploadImage" style="align:center; display: block; width: 100%; height: 100%; padding: 10px;">将图片拖拽至此区域或点击上传</label>
+					<input type="file" name="image" id="addUploadImage" accept="image/*" style="display: none"/>
+				</div>
+				<div class="right_div" id="addShowImg"></div>
+			</div>
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="addBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="loadingGifDiv" style="display:none;">
+		<img id="loadingGif" src="img/loading.gif">
+		<p id="loadingMsg"></p>
+	</div>
+
+	<div class="overlay"></div>
+	<div class="img_popup">
+		<div class="image-wrapper">
+			<img id="listPreviewImage" src="" style="height:50%" alt="Popup Image" />
+			<div class="close-icon" onclick="closePopup()">X</div>
+		</div>
+	</div>
+
+	<div id="updateDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>修改</h3>
+		<div style="float:right">
+			<button onclick = "closeUpdateDialog()">关闭</button>
+		</div>
+		<form id="updateForm">
+			<div style='margin-left:3.4em;margin-top:3em;display:flex;flex-direction:row'>
+				<input id="updateId" name="id" type="text" style='display: none'>
+				<div>
+					<span style="color:red;"> * </span><label>商品 : </label><select id="updateGoodsUuid"></select>
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>供应商 : </label><select id="updateSupplierUuid"></select>
+				</div>
+			</div>
+			<div style='margin-left:4em;margin-top:1em;display:flex;flex-direction:row'>
+				<div>
+					<label>数量 : </label><input id="updateNumber" name="number" type="text" value="1" size="1" maxlength="10" readonly/>
+				</div>
+				<div style="margin-left:2em">
+					<label>单位 : </label><select id="updateUnit" name="unit"></select>
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>进价 : </label><input id="updatePurchasePrice" name="purchasePrice" type="text" size="5" maxlength="10"/> 元
+				</div>
+				<div style="margin-left:2em">
+					<span style="color:red;"> * </span><label>售价 : </label><input id="updateSellingPrice" name="sellingPrice" type="text" size="5" maxlength="10"/> 元
+				</div>
+			</div>
+			<div style='margin-left:4em;margin-top:1em;'>
+				<label>备注 : </label><textarea id="updateRemark" name='remark' rows='3' cols='70' maxlength="128"></textarea>
+			</div>
+			<div style='margin-left:5em;margin-top:1em;display:flex;flex-direction:row'>
+				<div class="left_div" id="update-drop-area" style="margin-right:0.5em">
+					<label for="updateUploadImage" style="align:center; display: block; width: 100%; height: 100%; padding: 10px;">将图片拖拽至此区域或点击上传</label>
+					<input type="file" name="image" id="updateUploadImage" accept="image/*" style="display: none"/>
+				</div>
+				<div class="right_div" id="updateShowImg"></div>
+			</div>
+			<div style='margin-left:18em;margin-top:2em'>
+				<button class="large-button" id="updateBtn">保存</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="viewDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>查看</h3>
+		<div style="float:right">
+			<button onclick = "closeViewDialog()">关闭</button>
+		</div>
+		<div style='margin-left:3.4em;margin-top:3em;display:flex;flex-direction:row'>
+			<div>
+				<label>商品 : </label><input id="viewGoodsName" type="text" size="10" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>供应商 : </label><input id="viewSupplierName" type="text" size="10" disabled/>
+			</div>
+		</div>
+		<div style='margin-left:3.4em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>数量 : </label><input id="viewNumber" type="text" size="1" disabled/>
+			</div>
+			<div style="margin-right:2em">
+				<label>单位 : </label><select id="viewUnit" disabled></select>
+			</div>
+			<div style="margin-right:2em">
+				<label>进价 : </label><input id="viewPurchasePrice" type="text" size="5" disabled/> 元
+			</div>
+			<div style="margin-right:2em">
+				<label>售价 : </label><input id="viewSellingPrice" type="text" size="5" disabled/> 元
+			</div>
+		</div>
+		<div style='margin-left:3.4em;margin-top:1em;'>
+			<label>备注 : </label><textarea id="viewRemark" rows='3' cols='70' disabled></textarea>
+		</div>
+		<div style='margin-left:1.5em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>提交时间 : </label><input id="createTimeStr" type="text" disabled/>
+			</div>
+			<div style="margin-left:3em">
+				<label>修改时间 : </label><input id="updateTimeStr" type="text" disabled/>
+			</div>
+		</div>
+		<div id="imgViewDiv" style='margin-left:5em;margin-top:1em'>
+			<div class="right_div" id="viewShowImg" style="float: left;"></div>
+		</div>
+	</div>
+
+	<div id="viewSupplierDiv" class="white_content">
+		<h3 style='position: absolute;left: 1em; top: 0;'>供应商信息</h3>
+		<div style="float:right">
+			<button onclick = "closeSupplierViewDialog()">关闭</button>
+		</div>
+		<div style='margin-left:5em;margin-top:3em;display:flex;flex-direction:row'>
+			<div>
+				<label>姓名 : </label><input id="viewName" type="text" size="14" disabled/>
+			</div>
+			<div style="margin-left:2em">
+				<label>供应商性质 : </label><input id="viewSupplierTypeValue" type="text" size="14" disabled/>
+			</div>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>商品 : </label><textarea id="viewService" rows='8' cols='70' disabled></textarea>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>电话 : </label><input id="viewMobile" type="text" size="35" disabled/>
+		</div>
+		<div style='margin-left:1em;margin-top:1em'>
+			<label>其他联系方式 : </label><input id="viewOtherContact" type="text" size="66" disabled/>
+		</div>
+		<div style='margin-left:3.9em;margin-top:1em'>
+			<label>e-mail : </label><input id="viewEmail" type="text" size="50" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>地址 : </label><input id="viewAddress" type="text" size="60" disabled/>
+		</div>
+		<div style='margin-left:5em;margin-top:1em'>
+			<label>备注 : </label><input id="viewSupplierRemark" type="text" size="63" disabled/>
+		</div>
+		<div style='margin-left:3em;margin-top:1em;display:flex;flex-direction:row'>
+			<div>
+				<label>提交时间 : </label><input id="supplierCreateTimeStr" type="text" disabled/>
+			</div>
+			<div style="margin-left:3em">
+				<label>修改时间 : </label><input id="supplierUpdateTimeStr" type="text" disabled/>
+			</div>
+		</div>
+	</div>
+
+	<div style='float:left;margin-top:0%;display:flex;flex-direction:column'>
+		<div>
+			<table width="100%"  style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th style="width:1%">NO.</th>
+						<th style="width:2.7%">商品</th>
+						<th style="width:1%">单位</th>
+						<th style="width:2%">进价(元)</th>
+						<th style="width:2%">售价(元)</th>
+						<th style="width:2.5%">毛利/率</th>
+						<th style="width:2.5%">供应商</th>
+						<th style="width:2%">备注</th>
+						<th style="width:2%">包含图片</th>
+						<th style="width:3%">提交时间</th>
+						<th style="width:6%">操作</th>
+					</tr>
+				</thead>
+		        <tbody id="tableBody"></tbody>
+	        </table>
+		</div>
+		<div style="margin-left:35%;margin-top:1em" id="pagination"></div>
+	</div>
+</body>
+</html>

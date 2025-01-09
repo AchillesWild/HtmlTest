@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../common/img/tab.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/alert.css">
+    <link rel="stylesheet" href="css/pass.css">
+    <link type="text/css" rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="../common/host.js"></script>
+    <script type="text/javascript" src="../common/base.js"></script>
+    <script type="text/javascript" src="../common/check.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="login.js"></script>
+</head>
+<body>
+     <div data-role="page" style="background-color: #B4EEB4;">
+        <div data-role="header" data-position="inline">
+            <h1>记录&分享</h1>
+        </div>
+
+        <div data-role="content">
+            <h2 align="center">登录</h2>
+            <form id="login-form">
+                <div style="border: none; box-shadow: none;width:80%;margin: 2em auto;text-align: center;">
+                    <input type="text" id="userName" name="userName" autocomplete="on" placeholder="账号">
+                </div>
+                <div style="position: relative;border: none; box-shadow: none;width:80%;margin: 2em auto 1em;text-align: center;">
+                    <input type="password" id="password" name="password" autocomplete="on" placeholder="密码">
+                    <span class="showPassword">👁️</span>
+                </div>
+                <div class="button-row" style="width:85%;margin: 2em auto;text-align: center;">
+                   <div>
+                       <input type="button" data-theme="a" id="login" value="登录"/>
+                   </div>
+                   <div class="input-wrapper">
+                       <div class="input-container">
+                           <label for="toRegister">没有账号,</label><input type="button" id="toRegister" value="去注册"/>
+                       </div>
+                   </div>
+                </div>
+                <div align="center" style="margin-top: 1.5em;margin-bottom: 1.5em;text-align: center;">
+                    <a href="#" style="text-decoration: none;" id="findPass">忘记密码</a>
+                </div>
+            </form>
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <h4>欢迎使用本站 !</h4>
+            <div align="center" style="font-size:0.7em">
+                <a href="https://beian.miit.gov.cn/" target="_blank">陕ICP备2024054123号-1</a>
+                <img src="../common/img/beian.png" style="margin-left:1em;" width="20"/><a style="margin-left:0.5em;" href="https://beian.mps.gov.cn/#/query/webSearch?code=61030402000117" rel="noreferrer" target="_blank">陕公网安备61030402000117</a>
+            </div>
+        </div>
+    </div>
+
+     <div id="alertOverlay" onclick="closeAlert();" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 1000;"></div>
+     <div id="alertModal">
+         <p id="alertMessage"></p>
+         <button id="closeAlert" onclick="closeAlert();">确定</button>
+     </div>
+</body>
+</html>

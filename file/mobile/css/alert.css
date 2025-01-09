@@ -1,0 +1,90 @@
+    #alertModal {
+        display: none;
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1001;
+        width: 80%;
+        max-width: 400px;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+     #alertPass {
+        display: none;
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        width: 80%;
+        max-width: 400px;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    #alertNotice {
+        display: none;
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        width: 80%;
+        max-width: 400px;
+        background: #FFE4B5;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    #closeAlert, #confirm, #cancel, #confirmNotice, #cancelPass, #confirmPass{
+            margin-top: 20px;
+            margin-left: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    #confirm, #confirmPass{
+        background-color: #8B3A3A; /* 红色 */
+    }
+
+    #closeAlert {
+        background-color: #458B74;
+    }
+
+    #closeAlert:hover,#confirm:hover, #cancel:hover, #cancelPass:hover, #confirmPass:hover {
+        transform: translateY(-2px);
+    }
+
+    #alertModal, #alertNotice p,#alertPass {
+        font-size: 16px;
+        margin-top: 20px;
+        color: #333;
+    }
+
+    .checkbox-container {
+        display: flex;
+        justify-content: flex-end; /* 将对齐方式改为底部对齐 */
+        align-items: center;
+    }
+
+
+    .checkbox-container label {
+        font-size: 0.7em !important; /* 字体大小 */
+    }

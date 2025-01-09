@@ -1,0 +1,24 @@
+    .getImg {
+        cursor: pointer;
+        text-align: left; /* 左对齐 */
+        color: blue;
+    }
+
+    .deleteIcon {
+        cursor: pointer;
+        text-align: right; /* 右对齐 */
+    }
+
+    img.post-image {
+        width: 100%;
+        height: auto;
+        margin-top: 10px; /* 图片与内容的距离 */
+    }
+
+    .upload-area {
+        border: 1px dashed #ccc;
+        padding: 30px;
+        text-align: center;
+        margin-top: 10px;
+        cursor: pointer;
+    }
