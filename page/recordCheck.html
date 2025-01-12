@@ -11,6 +11,7 @@
 					return response.text(); // 读取为文本
 				})
 				.then(data => {
+					console.log(data.length); // 输出原始文本
 					console.log(getYyyyMMddHHmmssSSS(new Date()) + "  :  " + data); // 输出原始文本
 					// 进一步处理数据，例如：
 				})
